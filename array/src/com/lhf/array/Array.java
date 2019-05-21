@@ -5,6 +5,12 @@ package com.lhf.array;
  *
  * 基于jdk的静态数组封装一个动态数据
  * 类中的属性均为private，不想通过外接直接访问到属性，避免一些操作导致类中的属性出现不一致性
+ *
+ * 总体而言（时间复杂度分析）：
+ *      增、删 操作时间复杂度是O(n)
+ *      改、查 如果已知索引，则O(1)，否则O(n)
+ *
+ * 建议使用数组时，下表有实际含义，这样可以根据下标操作，改查的时间复杂度就是O(1)
  */
 public class Array<E> {
 
@@ -33,6 +39,7 @@ public class Array<E> {
 
     /**
      * 获取数组中当前有多少个元素
+     * O(1)
      * @return
      */
     public int getSize(){
@@ -41,6 +48,7 @@ public class Array<E> {
 
     /**
      * 获取数组容量
+     * O(1)
      * @return
      */
     public int getCapacity(){
@@ -49,6 +57,7 @@ public class Array<E> {
 
     /**
      * 数组是否为空
+     * O(1)
      * @return
      */
     public boolean isEmpty(){
@@ -57,6 +66,7 @@ public class Array<E> {
 
     /**
      * 尾部添加元素
+     * O(1)
      * @param e
      */
     public void addLast(E e){
@@ -65,6 +75,7 @@ public class Array<E> {
 
     /**
      * 首部添加元素
+     * O(n)
      * @param e
      */
     public void addFirst(E e){
@@ -73,6 +84,7 @@ public class Array<E> {
 
     /**
      * 向数组中添加元素（默认从末尾添加）
+     * O(1)
      * @param e
      */
     public void add(E e){
@@ -81,6 +93,7 @@ public class Array<E> {
 
     /**
      * 向指定位置添加元素
+     * O(n/2) = O(n)
      * @param index
      * @param e
      */
@@ -107,6 +120,7 @@ public class Array<E> {
 
     /**
      * 从数组中取出指定下标的元素
+     * O(1)
      * @param index
      * @return
      */
@@ -119,6 +133,7 @@ public class Array<E> {
 
     /**
      * 设置index索引位置的元素值为e
+     * O（1）
      * @param index
      * @param e
      */
@@ -131,6 +146,7 @@ public class Array<E> {
 
     /**
      * 查找指定元素在数组中的索引如果不存在返回-1
+     * O(n)
      * @param e
      * @return
      */
@@ -146,6 +162,7 @@ public class Array<E> {
 
     /**
      * 删除指定索引位置的元素
+     * O(n/2) = O(n)
      * @param index
      * @return
      */
@@ -164,7 +181,8 @@ public class Array<E> {
         //有利于GC
         data[size] = null;
 
-        if (size<=data.length/2){
+        //四分之一时再缩容，有利于算法的性能，避免到达临界值是出现每次都需要更改容量的情况
+        if (size<=data.length/4 && data.length/2 !=0){
             reCapacity(data.length/2);
         }
 
@@ -173,6 +191,7 @@ public class Array<E> {
 
     /**
      * 删除第一个元素
+     * O(n)
      * @return
      */
     public E removeFirst(){
@@ -181,6 +200,7 @@ public class Array<E> {
 
     /**
      * 删除最后一个元素
+     * O(1)
      * @return
      */
     public E removeLast(){
@@ -189,6 +209,7 @@ public class Array<E> {
 
     /**
      * 动态扩容
+     * O(n)
      * @param newCapacity
      */
     private void reCapacity(int newCapacity) {
