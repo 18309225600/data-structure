@@ -19,7 +19,7 @@ public class Array<E> {
     //数组中目前元素的个数
     private int size;
     //数组初始化容量
-    private static final int INIT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 10;
 
     /**
      * 初始化动态数组，入参为容量
@@ -34,7 +34,7 @@ public class Array<E> {
      * 初始化动态数组，不指定容量时，使用默认容量
      */
     public Array(){
-        this(Array.INIT_CAPACITY);
+        this(Array.DEFAULT_CAPACITY);
     }
 
     /**
