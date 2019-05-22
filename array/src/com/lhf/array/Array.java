@@ -26,6 +26,9 @@ public class Array<E> {
      * @param capacity
      */
     public Array(int capacity){
+        if(capacity<=0){
+            throw new IllegalArgumentException("init Array failed. capacity must > 0");
+        }
         data = (E[])new Object[capacity];
         this.size = 0;
     }
