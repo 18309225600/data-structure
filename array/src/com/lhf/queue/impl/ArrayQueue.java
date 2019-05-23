@@ -5,6 +5,8 @@ import com.lhf.queue.Queue;
 
 /**
  * Created by Liuhongfei on 2019/5/23 22:04
+ *
+ * 用动态数组实现的队列，有一个方法存在时间性能问题：即出队，出队时间复杂度为O（n) 后面用循环队列解决这个问题使得时间复杂度变为O(1)
  */
 public class ArrayQueue<E> implements Queue<E> {
 
