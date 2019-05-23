@@ -211,6 +211,24 @@ public class Array<E> {
     }
 
     /**
+     * 取出第一个元素
+     * O(1)
+     * @return
+     */
+    public E getFirst(){
+        return get(0);
+    }
+
+    /**
+     * 取出最后一个元素
+     * O(1)
+     * @return
+     */
+    public E getLast(){
+        return get(size-1);
+    }
+
+    /**
      * 动态扩容
      * O(n)
      * @param newCapacity
