@@ -15,28 +15,108 @@ public class LoopQueue<E> implements Queue<E> {
 
     private int size;
 
+    public LoopQueue(){
+        this(10);
+    }
+
+    public LoopQueue(int capacity){
+        data = (E[])new Object[capacity+1];
+        front = 0;
+        tail = 0;
+        size = 0;
+    }
+
     @Override
     public void enqueue(E e) {
+        //need resize
+        if ((tail+1)%data.length==front){
+            resize(2*getCapacity());
+        }
 
+        data[tail] = e;
+        tail = (tail+1)%data.length;
+        size++;
     }
 
     @Override
     public E dequeue() {
-        return null;
+
+        if (isEmpty()){
+            throw new IllegalArgumentException("Can not dequeue from an empty queue.");
+        }
+        E ret = data[front];
+        data[front] = null;
+        front = (front+1)%data.length;
+        size--;
+
+        if (size<=getCapacity()/4&&getCapacity()/2!=0){
+            resize(getCapacity()/2);
+        }
+        return ret;
     }
 
     @Override
     public E front() {
-        return null;
+        if (isEmpty()){
+            throw new IllegalArgumentException("Queue is empty");
+        }
+        return data[front];
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return front == tail;
     }
 
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
+
+    public int getCapacity(){
+        return data.length-1;
+    }
+
+    private void resize(int newCapacity) {
+        E[] newData = (E[])new Object[newCapacity+1];
+
+        for (int i=0;i<size;i++){
+            newData[i] = data[(i+front)%data.length];
+        }
+
+        data = newData;
+        front = 0;
+        tail = size;
+    }
+
+    @Override
+    public String toString(){
+        StringBuffer stringBuffer = new StringBuffer(String.format("Queue : size = %d ,capacity=%d \n front [",size,getCapacity()));
+
+        for (int i=0;i<size;i++){
+            stringBuffer.append(data[(i+front)%data.length]);
+            if (i!=size-1){
+                stringBuffer.append(",");
+            }
+        }
+
+        stringBuffer.append("] tail");
+
+        return stringBuffer.toString();
+    }
+
+    public static void main(String[] args) {
+
+        LoopQueue<Integer> queue = new LoopQueue<>();
+        for (int i=0;i<10;i++){
+            queue.enqueue(i);
+            System.out.println(queue);
+
+            if (i%3==2){
+                queue.dequeue();
+                System.out.println(queue);
+            }
+        }
+    }
+
 }
